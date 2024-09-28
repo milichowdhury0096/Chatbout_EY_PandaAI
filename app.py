@@ -6,6 +6,7 @@ import streamlit as st
 from dotenv import load_dotenv
 from pandasai import SmartDataframe
 from langchain_groq import ChatGroq
+import builtins  # Importing builtins
 
 # Load environment variables from the .env file
 load_dotenv()

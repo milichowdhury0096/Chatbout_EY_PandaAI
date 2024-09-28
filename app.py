@@ -5,34 +5,50 @@ from dotenv import load_dotenv
 from pandasai import SmartDataframe
 from langchain_groq import ChatGroq
 
-# Load environment variables
+# Load environment variables from the .env file
 load_dotenv()
 
-# Set your API key from environment variables
+# Get the API key from environment variables
 groq_api_key = os.getenv("GROQ_API_KEY")
 
-# Initialize the ChatGroq LLM
-llm = ChatGroq(groq_api_key=groq_api_key, model_name="llama3-groq-70b-8192-tool-use-preview")
+# Check if the API key is loaded correctly
+if not groq_api_key:
+    st.error("GROQ_API_KEY not set. Please check your .env file.")
+else:
+    # Initialize the ChatGroq LLM
+    llm = ChatGroq(groq_api_key=groq_api_key, model_name="llama3-groq-70b-8192-tool-use-preview")
 
-# URL for the CSV file
-csv_url = "https://raw.githubusercontent.com/milichowdhury/Chatbout_EY_PandaAI/refs/heads/main/data/ai4i2020.csv"
+    # URL for the CSV file stored in your GitHub repository
+    csv_url = "https://raw.githubusercontent.com/milichowdhury/Chatbout_EY_PandaAI/refs/heads/main/data/ai4i2020.csv"
 
-# Load the CSV data into a DataFrame
-data = pd.read_csv(csv_url)
-# Ensure SmartDataframe is initialized properly
-df = SmartDataframe(data, config={'llm': llm})
+    # Load the CSV data into a DataFrame
+    data = pd.read_csv(csv_url)
+    df = SmartDataframe(data, config={'llm': llm})
 
-# Streamlit app layout
-st.title("AI4I 2020 Data Analysis with ChatGroq")
+    # Streamlit app layout
+    st.title("AI4I 2020 Data Analysis with ChatGroq")
 
-# Add a text input for chat-based interaction
-user_query = st.text_input("Ask a question related to the data:")
+    # Define the prompt to guide the LLM's behavior
+    instructions = """
+    - Don't return data that is not in the table Machinelogs if asked to fetch data.
+    - Machine failure 1 is machine failure and 0 means it is okay.
+    - TWF is tool wear failure.
+    - HDF is heat dissipation failure.
+    - PWF is power failure.
+    - OSF is overstrain failure.
+    - RNF is random failures.
+    - Only provide charts and graphs when necessary.
+    - Provide data in a table format when necessary.
+    """
 
-# Process the user's query when they submit
-if st.button("Submit Query"):
-    if user_query:
-        # Send the query along with instructions to guide the model
-        result = df.chat(f"{user_query}. {instructions}")
-        st.write(result)
-    else:
-        st.write("Please enter a query to ask.")
+    # Add a text input for chat-based interaction
+    user_query = st.text_input("Ask a question related to the data:")
+
+    # Process the user's query when they submit
+    if st.button("Submit Query"):
+        if user_query:
+            # Send the query along with instructions to guide the model
+            result = df.chat(f"{user_query}. {instructions}")
+            st.write(result)
+        else:
+            st.write("Please enter a query to ask."

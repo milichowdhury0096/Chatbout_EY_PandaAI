@@ -54,4 +54,4 @@ else:
             result = df.chat(f"{user_query}. {instructions}")
             st.write(result)
         else:
-            st.write("Please enter a query to ask."
+            st.write("Please enter a query to ask.")

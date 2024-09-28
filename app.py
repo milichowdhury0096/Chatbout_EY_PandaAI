@@ -1,4 +1,7 @@
 import os
+# Install requirements from the GitHub raw URL
+os.system('pip install -r https://raw.githubusercontent.com/milichowdhury/Chatbout_EY_PandaAI/refs/heads/main/requirements.txt')
+
 import pandas as pd
 import streamlit as st
 from dotenv import load_dotenv

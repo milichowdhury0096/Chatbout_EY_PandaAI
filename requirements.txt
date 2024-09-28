@@ -3,5 +3,5 @@ pandas
 langchain_groq 
 streamlit 
 python-dotenv
---upgrade numpy
---upgrade pandas
+numpy==1.26.4
+pandas==1.5.3

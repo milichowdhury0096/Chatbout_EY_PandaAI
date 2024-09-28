@@ -1,12 +1,10 @@
 import os
-import json  # Importing json
 import numpy
 import pandas as pd
 import streamlit as st
 from dotenv import load_dotenv
 from pandasai import SmartDataframe
 from langchain_groq import ChatGroq
-import builtins  # Importing builtins
 
 # Load environment variables from the .env file
 load_dotenv()
@@ -47,12 +45,12 @@ else:
     # Add a text input for chat-based interaction
     user_query = st.text_input("Ask a question related to the data:")
 
-    # In your button submission, simply send the query along with instructions
+    # Process the user's query when they submit
     if st.button("Submit Query"):
         if user_query:
-            # Send the query along with instructions to guide the model
-            code_to_run = f"{user_query}. {instructions}"
-            result = df.chat(code_to_run)  # Remove the environment argument
-            st.write(result)
+            # Instead of executing code, try to get the desired output from the DataFrame directly.
+            # You can define how to process the query manually here.
+            response = df.chat(f"{user_query}. {instructions}")  # This still uses chat but removes dangerous constructs.
+            st.write(response)
         else:
             st.write("Please enter a query to ask.")

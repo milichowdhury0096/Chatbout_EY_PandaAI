@@ -29,7 +29,7 @@ else:
     df = SmartDataframe(data, config={'llm': llm})
 
     # Streamlit app layout
-    st.title("Data Analysis with ChatGroq")
+    st.title("AI4I 2020 Data Analysis with ChatGroq")
 
     # Define the prompt to guide the LLM's behavior
     instructions = """
@@ -47,21 +47,12 @@ else:
     # Add a text input for chat-based interaction
     user_query = st.text_input("Ask a question related to the data:")
 
-    # Provide a custom environment with built-ins
-    environment = {
-        '__builtins__': builtins,
-        'pd': pd,
-        'numpy': numpy,
-        'st': st,
-        'json': json,
-    }
-
-    # In your button submission, you may try to use this environment
+    # In your button submission, simply send the query along with instructions
     if st.button("Submit Query"):
         if user_query:
             # Send the query along with instructions to guide the model
             code_to_run = f"{user_query}. {instructions}"
-            result = df.chat(code_to_run, environment=environment)  # Note the use of the environment
+            result = df.chat(code_to_run)  # Remove the environment argument
             st.write(result)
         else:
             st.write("Please enter a query to ask.")

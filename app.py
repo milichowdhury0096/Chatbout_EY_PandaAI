@@ -1,5 +1,5 @@
 import os
-import numpy
+import numpy as np
 import pandas as pd
 import streamlit as st
 from dotenv import load_dotenv
@@ -48,9 +48,18 @@ else:
     # Process the user's query when they submit
     if st.button("Submit Query"):
         if user_query:
-            # Instead of executing code, try to get the desired output from the DataFrame directly.
-            # You can define how to process the query manually here.
-            response = df.chat(f"{user_query}. {instructions}")  # This still uses chat but removes dangerous constructs.
-            st.write(response)
+            # Process the query without using dangerous constructs
+            # For example, you can implement specific query types:
+            if "average" in user_query.lower():
+                column_name = user_query.split()[-1]  # Assuming the column name is the last word
+                if column_name in df.columns:
+                    avg_value = df[column_name].mean()
+                    st.write(f"The average of {column_name} is {avg_value}")
+                else:
+                    st.write("Column not found in the DataFrame.")
+            else:
+                # For other queries, you can use the LLM but ensure no dangerous constructs
+                result = df.chat(f"{user_query}. {instructions}")
+                st.write(result)
         else:
             st.write("Please enter a query to ask.")

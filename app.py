@@ -8,7 +8,7 @@ from pandasai import SmartDataframe
 
 # Groq LLM Configuration
 def load_groq_llm():
-    return ChatGroq(model_name="llama3-groq-70b-8192-tool-use-preview", api_key=os.environ['GROQ_API_KEY'])
+    return ChatGroq(model_name="llama3-groq-70b-8192-tool-use-preview", api_key=os.environ['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'])
 
 # Main App Logic
 def main():
